@@ -1,6 +1,6 @@
-const invoices = require("./invoices.json");
-const plays = require("./plays.json");
-const statement = require("./statement");
+import invoices from "./invoices.json";
+import plays from "./plays.json";
+import { statement } from "./statement";
 
 test("statement out right", () => {
   expect(statement(invoices, plays)).toBe(

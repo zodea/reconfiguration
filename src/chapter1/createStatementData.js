@@ -7,8 +7,10 @@ export default function createStatementData(invoice, plays) {
   return result;
 
   function enrichPerformance(aPerformance) {
+    // 由于在此处直接调用了几个计算函数，因此由这里开始创建一个类来做后续操作
+    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
     const result = Object.assign({}, aPerformance);
-    result.play = playFor(result);
+    result.play = calculator.play;
     result.amount = amountFor(result);
     result.volumeCredits = volumeCreditsFor(result);
     return result;
@@ -48,5 +50,12 @@ export default function createStatementData(invoice, plays) {
   }
   function totalVolumeCredits(data) {
     return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
+  }
+}
+
+class PerformanceCalculator {
+  constructor(aPerformance, aplay) {
+    this.aPerformance = aPerformance;
+    this.play = aplay;
   }
 }

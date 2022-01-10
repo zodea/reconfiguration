@@ -1,8 +1,8 @@
 import createStatementData from "./createStatementData";
 
-module.exports = function statement(invoice, plays) {
+export function statement(invoice, plays) {
   return renderPlainText(createStatementData(invoice, plays));
-};
+}
 
 function renderPlainText(data) {
   let result = `Statement for ${data.customer}\n`;
@@ -15,9 +15,9 @@ function renderPlainText(data) {
   return result;
 }
 
-module.exports = function htmlStatement(invoice, plays) {
+export function htmlStatement(invoice, plays) {
   return renderHtml(createStatementData(invoice, plays));
-};
+}
 
 function renderHtml(data) {
   let result = `<h1>Statement for ${data.customer}</h1>\n`;
