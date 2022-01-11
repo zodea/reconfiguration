@@ -8,7 +8,14 @@ export default function createStatementData(invoice, plays) {
 
   // 构造函数无法返回子类，所以通过工厂函数来实现
   function createPerformanceCaculator(aPerformance, aPlay) {
-    return new PerformanceCalculator(aPerformance, aPlay);
+    switch (aPlay.type) {
+      case "tragedy":
+        return new TragedyCalculator(aPerformance, aPlay);
+      case "comedy":
+        return new ComedyCalculator(aPerformance, aPlay);
+      default:
+        throw new Error(`unknown type: ${aPlay.type}`);
+    }
   }
 
   function enrichPerformance(aPerformance) {
@@ -41,11 +48,7 @@ class PerformanceCalculator {
     let result = 0;
     switch (this.play.type) {
       case "tragedy":
-        result = 40000;
-        if (this.aPerformance.audience > 30) {
-          result += 1000 * (this.aPerformance.audience - 30);
-        }
-        break;
+        throw "bad thing";
       case "comedy":
         result = 30000;
         if (this.aPerformance.audience > 20) {
@@ -66,3 +69,14 @@ class PerformanceCalculator {
     return result;
   }
 }
+
+class TragedyCalculator extends PerformanceCalculator {
+  get amount() {
+    let result = 40000;
+    if (this.aPerformance.audience > 30) {
+      result += 1000 * (this.aPerformance.audience - 30);
+    }
+    return result;
+  }
+}
+class ComedyCalculator extends PerformanceCalculator {}
