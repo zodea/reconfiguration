@@ -6,9 +6,14 @@ export default function createStatementData(invoice, plays) {
   result.totalVolumeCredits = totalVolumeCredits(result);
   return result;
 
+  // 构造函数无法返回子类，所以通过工厂函数来实现
+  function createPerformanceCaculator(aPerformance, aPlay) {
+    return new PerformanceCalculator(aPerformance, aPlay);
+  }
+
   function enrichPerformance(aPerformance) {
     // 由于在此处直接调用了几个计算函数，因此由这里开始创建一个类来做后续操作
-    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+    const calculator = createPerformanceCaculator(aPerformance, playFor(aPerformance));
     const result = Object.assign({}, aPerformance);
     result.play = calculator.play;
     result.amount = calculator.amount;
